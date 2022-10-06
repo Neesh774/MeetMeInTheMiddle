@@ -1,11 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class", '[data-theme="dark"]'],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ["SignPainter", "serif"],
+        sans: ["Lexend Deca", "sans-serif"],
+      },
+      colors: {
+        primary: {
+          600: "#ED4548",
+          400: "#EF5D60",
+        },
+        secondary: {
+          600: "#DB926B",
+          400: "#E09F7D",
+        },
+        tertiary: {
+          600: "#81b29a",
+          400: "#81b29a",
+        },
+      },
+    },
   },
   plugins: [],
 };
