@@ -1,13 +1,17 @@
+import Loader from "./Loader";
+
 export default function Button({
   onClick,
   children,
   style,
   size,
+  loading,
 }: {
   onClick?: () => void;
   children: React.ReactNode;
   style?: "primary" | "secondary" | "white" | "disabled";
   size?: "sm" | "md" | "lg";
+  loading?: boolean;
 }) {
   return (
     <button
@@ -24,11 +28,25 @@ export default function Button({
         size == "sm"
           ? "text-sm px-2 py-1"
           : size == "md"
-          ? "text-md px-3 py-2"
+          ? "text-md px-3 py-1.5"
           : "text-lg px-4 py-2"
       }`}
     >
-      {children}
+      {loading ? (
+        <Loader
+          className={`${
+            style == "secondary"
+              ? "text-secondary-600 dark:text-secondary-400"
+              : style == "white"
+              ? "text-zinc-300 dark:text-zinc-50/50"
+              : style == "disabled"
+              ? "text-gray-500 dark:text-gray-400"
+              : "text-white/90 dark:text-white/90"
+          } ${size == "sm" ? "h-4" : size == "md" ? "h-6" : "h-8"}`}
+        />
+      ) : (
+        children
+      )}
     </button>
   );
 }

@@ -37,6 +37,7 @@ export default function Autocomplete({
     <>
       {hasMounted && (
         <AsyncSelect
+          menuPlacement="auto"
           styles={{
             container: (provided, state) => ({
               ...provided,
@@ -45,17 +46,31 @@ export default function Autocomplete({
             menu: (provided, state) => ({
               ...provided,
               backgroundColor: theme == "dark" ? "#2B2B2B" : "#F4F4F4",
+              width: "150%",
+              minWidth: "100%",
             }),
             option: (provided, state) => ({
               ...provided,
               backgroundColor:
                 theme == "dark"
-                  ? state.isFocused
+                  ? state.isFocused || state.isSelected
                     ? "#E09F7D"
                     : "#2B2B2B"
-                  : state.isFocused
+                  : state.isFocused || state.isSelected
                   ? "#FFC2A2"
                   : "#F0F0F0",
+              color: theme == "dark" ? "#F4F4F4" : "#2B2B2B",
+              ":active": {
+                ...provided[":active"],
+                backgroundColor:
+                  theme == "dark"
+                    ? state.isFocused || state.isSelected
+                      ? "#E09F7D"
+                      : "#2B2B2B"
+                    : state.isFocused || state.isSelected
+                    ? "#FFC2A2"
+                    : "#F0F0F0",
+              },
             }),
             input: (provided, state) => ({
               ...provided,

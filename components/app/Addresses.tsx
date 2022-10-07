@@ -9,9 +9,19 @@ export default function Addresses({
   setAddresses,
   addresses,
 }: {
-  setAddresses: Dispatch<SetStateAction<string[]>>;
+  setAddresses: (addresses: string[]) => void;
   addresses: string[];
 }) {
+  const getLatLng = async (
+    placeId: string,
+    setValue: (value: string) => void
+  ) => {
+    const response = await fetch("/api/geocode/" + placeId);
+    const data = await response.json();
+    const { lat, lng } = data.results[0].geometry.location;
+    setValue(lat + "," + lng);
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row justify-between">
@@ -21,7 +31,7 @@ export default function Addresses({
           onClick={() => {
             setAddresses([...addresses, ""]);
           }}
-          style={addresses.length >= 10 ? "disabled" : "primary"}
+          style={addresses.length >= 10 ? "disabled" : "white"}
         >
           <div className="flex flex-row items-center gap-1">
             <TbPlus />
@@ -34,11 +44,13 @@ export default function Addresses({
           <div key={i} className="flex flex-row gap-2">
             <Autocomplete
               value={address}
-              setValue={(value) => {
-                const newAddresses = [...addresses];
-                newAddresses[i] = value;
-                setAddresses(newAddresses);
-              }}
+              setValue={(v) =>
+                getLatLng(v, (value) => {
+                  const newAddresses = [...addresses];
+                  newAddresses[i] = value;
+                  setAddresses(newAddresses);
+                })
+              }
               placeholder="Address"
             />
             <IconButton

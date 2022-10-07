@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { input } = req.query;
-    if (!input) {
-        res.status(400).json({ error: 'Missing input' });
+    const { id } = req.query;
+    if (!id) {
+        res.status(400).json({ error: 'Missing place ID' });
         return;
     }
-    const url = "https://maps.googleapis.com/maps/api/place/queryautocomplete/json";
+    const url = "https://maps.googleapis.com/maps/api/geocode/json";
     const key = process.env.GOOGLE_API_KEY;
-    const query = `${url}?input=${input}&key=${key}`;
+    const query = `${url}?place_id=${id}&key=${key}`;
     await fetch(query)
         .then((response) => response.json())
         .then((data) => {

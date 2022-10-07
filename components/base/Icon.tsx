@@ -10,7 +10,7 @@ const Icon = ({
   return (
     <children.type
       {...children.props}
-      className={`w-5 h-5 m-2 ${className} ${children.props.className}`}
+      className={`w-5 h-5 m-2 ${className ?? ""} ${children.props.className}`}
     />
   );
 };
