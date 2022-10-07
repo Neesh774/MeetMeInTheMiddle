@@ -11,10 +11,10 @@ export default function SpotTypes({
   setTypes: (types: any) => void;
 }) {
   const map = {
-    cafe: <IoIosCafe className="w-10" />,
-    dining: <MdRestaurant className="w-10" />,
-    park: <MdOutlinePark className="w-10" />,
-    bar: <BiDrink className="w-10" />,
+    cafe: <IoIosCafe />,
+    dining: <MdRestaurant />,
+    park: <MdOutlinePark />,
+    bar: <BiDrink />,
   };
 
   return (
@@ -40,7 +40,9 @@ export default function SpotTypes({
                 types[type] ? "text-white" : "text-zinc-800 dark:text-zinc-500"
               }`}
             >
-              <Icon>{map[type as "cafe" | "dining" | "park" | "bar"]}</Icon>
+              <Icon width="10">
+                {map[type as "cafe" | "dining" | "park" | "bar"]}
+              </Icon>
               <span className="text-xs mb-1">{type}</span>
             </div>
           </button>

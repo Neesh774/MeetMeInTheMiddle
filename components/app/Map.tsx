@@ -8,6 +8,7 @@ import { TbMapSearch } from "react-icons/tb";
 import { IoIosCafe } from "react-icons/io";
 import { MdRestaurant, MdOutlinePark } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
+import { Toaster } from "react-hot-toast";
 
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -36,53 +37,29 @@ export default function Map({
   }, [addresses, hasMounted, data]);
 
   useEffect(() => {
+    const addrs = addresses.filter((a) => a.length > 0);
     if (locations && Object.keys(locations).length > 0 && hasMounted && data) {
       const allLocations = Object.values(locations)
         .reduce((acc: any[], val) => acc.concat(val), [])
         .map((l: any) => l.geometry.location);
-
-      const latCenter =
-        allLocations.reduce((acc, val) => acc + val.lat, 0) /
-        allLocations.length;
-      const lngCenter =
-        allLocations.reduce((acc, val) => acc + val.lng, 0) /
-        allLocations.length;
-
-      if (mapRef.current) {
-        // @ts-ignore
-        mapRef.current.map_.panTo({ lat: latCenter, lng: lngCenter });
-      }
-    }
-  }, [locations, data, hasMounted]);
-
-  useEffect(() => {
-    const addrs = addresses.filter((a) => a.length > 0);
-    if (addrs.length > 0 && hasMounted && data) {
       const coords = addrs.map((a) => ({
         lat: parseFloat(a.split(",")[0]),
         lng: parseFloat(a.split(",")[1]),
       }));
+      allLocations.push(...coords);
 
-      const latMin = coords.reduce(
-        (acc, val) => Math.min(acc, val.lat),
-        coords[0].lat
-      );
-      const latMax = coords.reduce(
-        (acc, val) => Math.max(acc, val.lat),
-        coords[0].lat
-      );
-      const lngMin = coords.reduce(
-        (acc, val) => Math.min(acc, val.lng),
-        coords[0].lng
-      );
-      const lngMax = coords.reduce(
-        (acc, val) => Math.max(acc, val.lng),
-        coords[0].lng
-      );
+      if (allLocations.length == 0) {
+        return;
+      }
+
+      const latMin = Math.min(...allLocations.map((l) => l.lat));
+      const latMax = Math.max(...allLocations.map((l) => l.lat));
+      const lngMin = Math.min(...allLocations.map((l) => l.lng));
+      const lngMax = Math.max(...allLocations.map((l) => l.lng));
 
       if (mapRef.current) {
         // @ts-ignore
-        mapRef.current.map_.panToBounds(
+        mapRef.current.map_.fitBounds(
           {
             north: latMax,
             south: latMin,
@@ -93,10 +70,11 @@ export default function Map({
         );
       }
     }
-  }, [addresses, data, hasMounted]);
+  }, [locations, addresses, data, hasMounted]);
 
   return (
     <div className="w-full">
+      <Toaster />
       {shown ? (
         <GoogleMapReact
           ref={mapRef}

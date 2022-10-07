@@ -22,10 +22,12 @@ export default function Autocomplete({
   value,
   setValue,
   placeholder,
+  clearLocations,
 }: {
   value: string;
   setValue: (value: string) => void;
   placeholder?: string;
+  clearLocations: () => void;
 }) {
   const onChange = (value: string) => {
     setValue(value);
@@ -99,6 +101,7 @@ export default function Autocomplete({
           placeholder={placeholder}
           onChange={(e: any) => {
             setValue(e.value);
+            clearLocations();
           }}
         />
       )}

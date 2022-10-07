@@ -42,7 +42,7 @@ export default function Button({
               : style == "disabled"
               ? "text-gray-500 dark:text-gray-400"
               : "text-white/90 dark:text-white/90"
-          } ${size == "sm" ? "h-4" : size == "md" ? "h-6" : "h-8"}`}
+          } ${size == "sm" ? "h-4" : size == "md" ? "h-1rem" : "h-8"}`}
         />
       ) : (
         children

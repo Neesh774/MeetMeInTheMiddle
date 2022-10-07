@@ -8,9 +8,11 @@ import Input from "../base/Input";
 export default function Addresses({
   setAddresses,
   addresses,
+  setLocations,
 }: {
   setAddresses: (addresses: string[]) => void;
   addresses: string[];
+  setLocations: Dispatch<SetStateAction<any>>;
 }) {
   const getLatLng = async (
     placeId: string,
@@ -20,6 +22,10 @@ export default function Addresses({
     const data = await response.json();
     const { lat, lng } = data.results[0].geometry.location;
     setValue(lat + "," + lng);
+  };
+
+  const clearLocations = () => {
+    setLocations([]);
   };
 
   return (
@@ -43,6 +49,7 @@ export default function Addresses({
         {addresses.map((address, i) => (
           <div key={i} className="flex flex-row gap-2">
             <Autocomplete
+              clearLocations={clearLocations}
               value={address}
               setValue={(v) =>
                 getLatLng(v, (value) => {
@@ -60,6 +67,7 @@ export default function Addresses({
               }`}
               onClick={() => {
                 setAddresses(addresses.filter((_, j) => j !== i));
+                clearLocations();
               }}
             >
               <TbTrash />
