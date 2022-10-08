@@ -29,15 +29,12 @@ export default function Autocomplete({
   placeholder?: string;
   clearLocations: () => void;
 }) {
-  const onChange = (value: string) => {
-    setValue(value);
-  };
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const hasMounted = useHasMounted();
 
   return (
     <>
-      {hasMounted && (
+      {hasMounted && theme && (
         <AsyncSelect
           menuPlacement="auto"
           styles={{
