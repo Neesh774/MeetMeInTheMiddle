@@ -3,12 +3,20 @@ import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import useHasMounted from "../../utils/useHasMounted";
-import { FaMapMarkerAlt, FaMapMarker } from "react-icons/fa";
-import { TbMapSearch } from "react-icons/tb";
+import { FaMapMarkerAlt, FaMapMarker, FaBowlingBall } from "react-icons/fa";
+import { TbMapSearch, TbMovie } from "react-icons/tb";
 import { IoIosCafe } from "react-icons/io";
-import { MdRestaurant, MdOutlinePark } from "react-icons/md";
+import {
+  MdRestaurant,
+  MdOutlinePark,
+  MdAttractions,
+  MdTrain,
+  MdTour,
+} from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
 import { Toaster } from "react-hot-toast";
+import { SpotTypes } from "../../utils/types";
+import React from "react";
 
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -38,7 +46,11 @@ export default function Map({
 
   useEffect(() => {
     const addrs = addresses.filter((a) => a.length > 0);
-    if (locations && Object.keys(locations).length > 0 && hasMounted && data) {
+    if (
+      ((locations && Object.keys(locations).length > 0) || addrs.length > 0) &&
+      hasMounted &&
+      data
+    ) {
       const allLocations = Object.values(locations)
         .reduce((acc: any[], val) => acc.concat(val), [])
         .map((l: any) => l.geometry.location);
@@ -57,7 +69,12 @@ export default function Map({
       const lngMin = Math.min(...allLocations.map((l) => l.lng));
       const lngMax = Math.max(...allLocations.map((l) => l.lng));
 
-      if (mapRef.current) {
+      if (latMin == latMax && lngMin == lngMax && mapRef.current) {
+        // @ts-ignore
+        mapRef.current.map_.setCenter({ lat: latMin, lng: lngMin });
+        // @ts-ignore
+        mapRef.current.map_.setZoom(16);
+      } else if (mapRef.current) {
         // @ts-ignore
         mapRef.current.map_.fitBounds(
           {
@@ -71,6 +88,49 @@ export default function Map({
       }
     }
   }, [locations, addresses, data, hasMounted]);
+
+  const map = {
+    cafe: {
+      icon: IoIosCafe,
+      light: "#b45309",
+      dark: "#92400e",
+    },
+    dining: {
+      icon: MdRestaurant,
+      light: "#000",
+      dark: "#000",
+    },
+    park: {
+      icon: MdOutlinePark,
+      light: "#065f46",
+      dark: "#15803d",
+    },
+    bar: {
+      icon: BiDrink,
+      light: "#4338ca",
+      dark: "#312e81",
+    },
+    movies: {
+      icon: TbMovie,
+      light: "#ef4444",
+      dark: "#b91c1c",
+    },
+    landmark: {
+      icon: MdTour,
+      light: "#86198f",
+      dark: "#a21caf",
+    },
+    bowling: {
+      icon: FaBowlingBall,
+      light: "#15803d",
+      dark: "#166534",
+    },
+    station: {
+      icon: MdTrain,
+      light: "#000",
+      dark: "#000",
+    },
+  };
 
   return (
     <div className="w-full">
@@ -107,7 +167,9 @@ export default function Map({
                 <div key={i} lat={lat} lng={lng}>
                   <FaMapMarkerAlt
                     className="w-12 h-12 text-primary-600 dark:text-primary-400"
-                    style={{ transform: "translate(-50%, -100%)" }}
+                    style={{
+                      transform: "translate(-50%, -100%) rotateZ(15deg)",
+                    }}
                   />
                 </div>
               );
@@ -123,30 +185,20 @@ export default function Map({
                       className="w-12 h-12 text-tertiary-600 dark:text-tertiary-400"
                       style={{ transform: "translate(-50%, -100%)" }}
                     />
-                    {type == "cafe" && (
-                      <IoIosCafe
-                        className="w-6 h-6 text-amber-700 dark:text-amber-800"
-                        style={{ transform: "translate(-50%, -360%)" }}
-                      />
-                    )}
-                    {type == "dining" && (
-                      <MdRestaurant
-                        className="w-6 h-6 text-black dark:text-black"
-                        style={{ transform: "translate(-50%, -360%)" }}
-                      />
-                    )}
-                    {type == "park" && (
-                      <MdOutlinePark
-                        className="w-6 h-6 text-emerald-800 dark:text-emerald-700"
-                        style={{ transform: "translate(-50%, -360%)" }}
-                      />
-                    )}
-                    {type == "bar" && (
-                      <BiDrink
-                        className="w-6 h-6 text-indigo-700 dark:text-indigo-900"
-                        style={{ transform: "translate(-50%, -360%)" }}
-                      />
-                    )}
+                    <div
+                      className="absolute w-7 h-7 text-tertiary-600 dark:text-tertiary-400"
+                      style={{
+                        transform: "translate(-50%, -320%)",
+                        color:
+                          theme == "dark"
+                            ? map[type as SpotTypes].dark
+                            : map[type as SpotTypes].light,
+                      }}
+                    >
+                      {React.createElement(map[type as SpotTypes].icon, {
+                        className: "w-full h-full",
+                      })}
+                    </div>
                   </div>
                 );
               });

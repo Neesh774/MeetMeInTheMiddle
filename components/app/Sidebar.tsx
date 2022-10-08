@@ -1,9 +1,10 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { Filters as FiltersType } from "../../utils/types";
 import Button from "../base/Button";
 import Addresses from "./Addresses";
-import SpotTypes from "./SpotTypes";
+import Filters from "./Filters";
 
 export default function Sidebar({
   addresses,
@@ -14,11 +15,18 @@ export default function Sidebar({
   setAddresses: (addresses: string[]) => void;
   setLocations: (locations: any[]) => void;
 }) {
-  const [spotTypes, setSpotTypes] = useState({
-    cafe: true,
-    dining: false,
-    park: false,
-    bar: false,
+  const [filters, setFilters] = useState<FiltersType>({
+    spotTypes: {
+      cafe: true,
+      dining: false,
+      park: false,
+      bar: false,
+      movies: false,
+      landmark: false,
+      bowling: false,
+      station: false,
+    },
+    radius: 5,
   });
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
@@ -32,15 +40,16 @@ export default function Sidebar({
       },
       body: JSON.stringify({
         addresses,
-        spotTypes,
+        filters,
       }),
     })
       .then((res) => res.json())
       .catch((err) => {
         console.error(err);
+        toast.error("Something went wrong");
       });
     setLocations(results);
-    if ((Object.values(results) as any[][]).flat().length === 0) {
+    if (results && (Object.values(results) as any[][]).flat().length === 0) {
       toast.error("No results found", {
         style: {
           background: theme === "dark" ? "#2B2B2B" : "#F4F4F4",
@@ -51,22 +60,22 @@ export default function Sidebar({
     setLoading(false);
   };
   return (
-    <div className="flex flex-col md:w-80 xl:w-96 min-h-[92%] border-r-2 border-gray-200 dark:border-gray-600 px-4 py-6 justify-between">
+    <div className="flex flex-col w-2/6 xl:w-3/12 min-h-[92%] border-r-2 border-gray-200 dark:border-gray-600 px-4 py-6 justify-between">
       <Addresses
         addresses={addresses}
         setAddresses={setAddresses}
         setLocations={setLocations}
       />
       <div>
-        <div className="flex justify-end mb-4">
+        <Filters filters={filters} setFilters={setFilters} />
+        <div className="flex justify-end mt-4">
           <Button
             size="md"
             style={
               addresses.filter((a) => a.length > 0).length >= 2 &&
-              (spotTypes.bar ||
-                spotTypes.cafe ||
-                spotTypes.dining ||
-                spotTypes.park)
+              (Object.entries(filters.spotTypes)
+                .map(([key, value]) => value)
+                .some((v) => v) as boolean)
                 ? "primary"
                 : "disabled"
             }
@@ -76,7 +85,6 @@ export default function Sidebar({
             Search
           </Button>
         </div>
-        <SpotTypes types={spotTypes} setTypes={setSpotTypes} />
       </div>
     </div>
   );

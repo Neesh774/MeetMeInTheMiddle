@@ -11,15 +11,16 @@ export default function Header() {
   return (
     <header className="flex justify-between items-center py-4 max-h-[8%] border-b-2 bg-slate-50 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-800 px-8">
       <Image
-        src="/meetmehere.svg"
+        src="/logo.svg"
         alt="Logo"
-        width={243}
-        height={50}
+        width={296}
+        height={45}
         layout="fixed"
       />
       {hasMounted && (
         <IconButton
           onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
+          width="6"
         >
           {theme == "dark" ? <TbMoon /> : <TbSun />}
         </IconButton>
