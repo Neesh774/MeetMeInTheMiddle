@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <MetaTags
-        title="Meet Me Here"
+        title="Meet Me in the Middle"
         description="Find the best meeting spots right in the middle of you and all your friends."
       />
       <Component {...pageProps} />
