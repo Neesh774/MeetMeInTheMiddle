@@ -14,11 +14,12 @@ export default function MetaTags({
       <meta name="description" content={description} />
       <link rel="icon" href="/favicon.png" />
       <title>{title}</title>
+      <meta property="og:title" content={title} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://meetmeinthemiddle.vercel.app/" />
+      <meta property="og:description" content={description} />
       <meta property="og:image" content="/meetmeinthemiddlebanner.png" />
       <meta property="twitter:image" content="/meetmeinthemiddlebanner.png" />
-      <meta property="og:description" content={description} />
       <meta name="theme-color" content="#EF5D60" />
       <meta name="twitter:card" content="summary_large_image" />
     </Head>
