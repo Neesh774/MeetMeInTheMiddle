@@ -1,9 +1,9 @@
 export default function Loader({
   className,
-  height,
+  size,
 }: {
   className?: string;
-  height?: string;
+  size?: "sm" | "md" | "lg";
 }) {
   return (
     <svg
@@ -16,7 +16,9 @@ export default function Loader({
       viewBox="0 0 100 100"
       enableBackground="new 0 0 100 100"
       xmlSpace="preserve"
-      className={`w-10 h-${height ?? "10"} ${className ?? ""}`}
+      className={`w-full ${
+        size == "sm" ? "h-4" : size == "md" ? "h-6" : "h-8"
+      } ${className ?? ""}`}
     >
       <path
         fill="#fff"

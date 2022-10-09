@@ -10,7 +10,7 @@ export default function Slider({
   max?: number;
 }) {
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-2 w-full mx-4 lg:mx-12">
       <input
         type="range"
         min={min ?? 0}

@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Filters as FiltersType } from "../../utils/types";
+import { Filters as FiltersType, Location } from "../../utils/types";
 import Button from "../base/Button";
 import Addresses from "./Addresses";
 import Filters from "./Filters";
@@ -13,7 +13,7 @@ export default function Sidebar({
 }: {
   addresses: string[];
   setAddresses: (addresses: string[]) => void;
-  setLocations: (locations: any[]) => void;
+  setLocations: (locations: Location[]) => void;
 }) {
   const [filters, setFilters] = useState<FiltersType>({
     spotTypes: {
@@ -49,7 +49,10 @@ export default function Sidebar({
         toast.error("Something went wrong");
       });
     setLocations(results);
-    if (results && (Object.values(results) as any[][]).flat().length === 0) {
+    if (
+      results &&
+      (Object.values(results) as Location[][]).flat().length === 0
+    ) {
       toast.error("No results found", {
         style: {
           background: theme === "dark" ? "#2B2B2B" : "#F4F4F4",
@@ -60,7 +63,7 @@ export default function Sidebar({
     setLoading(false);
   };
   return (
-    <div className="flex flex-col w-2/6 xl:w-3/12 min-h-[92%] border-r-2 border-gray-200 dark:border-gray-600 px-4 py-6 justify-between">
+    <div className="flex flex-col w-1/3 xl:w-1/4 h-full border-r-2 border-gray-200 dark:border-gray-600 px-4 py-6 justify-between z-20 bg-white dark:bg-black">
       <Addresses
         addresses={addresses}
         setAddresses={setAddresses}

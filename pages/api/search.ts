@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Coord, Filters } from '../../utils/types';
-
+import { Coord, Filters, SpotTypes } from '../../utils/types';
+import { Location } from '../../utils/types';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { addresses, filters }: { addresses: string[], filters: Filters } = req.body;
     const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return Math.sqrt(Math.pow(coord.lat - coordsAverage.lat, 2) + Math.pow(coord.lng - coordsAverage.lng, 2))
     })) * (filters.radius) * 8000).toFixed(0)
 
-    const results: { [key: string]: any } = {}
+    const results: Location[] = [];
     await Promise.all(spotTypes.map(async (type) => {
         const map = {
             "park": "park",
@@ -45,7 +45,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 return response.json()
             })
             .then((data) => {
-                results[type] = data.results
+                const locs = data.results.map((r: Location) => ({ ...r, type: type as SpotTypes }))
+                results.push(...locs)
             })
     }))
     res.status(200).json(results);

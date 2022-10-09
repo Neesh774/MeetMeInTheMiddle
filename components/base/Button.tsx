@@ -26,10 +26,10 @@ export default function Button({
           : "bg-secondary-400 text-white/90 hover:bg-secondary-600 dark:bg-secondary-600 dark:hover:bg-secondary-400"
       } ${
         size == "sm"
-          ? "text-sm px-2 py-1"
+          ? "text-sm px-2 py-1 max-h-8"
           : size == "md"
-          ? "text-md px-3 py-1.5"
-          : "text-lg px-4 py-2"
+          ? "text-md px-3 py-1.5 max-h-10"
+          : "text-lg px-4 py-2 max-h-12"
       }`}
     >
       {loading ? (
@@ -43,7 +43,7 @@ export default function Button({
               ? "text-gray-500 dark:text-gray-400"
               : "text-white/90 dark:text-white/90"
           }`}
-          height={size == "sm" ? "4" : size == "md" ? "6" : "8"}
+          size={size ?? "md"}
         />
       ) : (
         children

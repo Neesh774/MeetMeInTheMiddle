@@ -18,7 +18,7 @@ export default function Filters({
   setFilters,
 }: {
   filters: FiltersType;
-  setFilters: (types: any) => void;
+  setFilters: (types: FiltersType) => void;
 }) {
   const map = {
     cafe: <IoIosCafe />,

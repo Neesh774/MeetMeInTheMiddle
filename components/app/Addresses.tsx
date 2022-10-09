@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
 import { TbPlus, TbTrash } from "react-icons/tb";
 import Autocomplete from "./Autocomplete";
 import Button from "../base/Button";
 import IconButton from "../base/IconButton";
 import Input from "../base/Input";
+import { Location } from "../../utils/types";
 
 export default function Addresses({
   setAddresses,
@@ -12,7 +12,7 @@ export default function Addresses({
 }: {
   setAddresses: (addresses: string[]) => void;
   addresses: string[];
-  setLocations: Dispatch<SetStateAction<any>>;
+  setLocations: (locations: Location[]) => void;
 }) {
   const getLatLng = async (
     placeId: string,

@@ -15,7 +15,7 @@ import {
 } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
 import { Toaster } from "react-hot-toast";
-import { SpotTypes } from "../../utils/types";
+import { Location, SpotTypes } from "../../utils/types";
 import React from "react";
 
 // @ts-ignore
@@ -26,7 +26,7 @@ export default function Map({
   locations,
 }: {
   addresses: string[];
-  locations: any;
+  locations: Location[];
 }) {
   const { data, error } = useSWR("/api/mapURL", fetcher);
   const { theme } = useTheme();
@@ -47,13 +47,11 @@ export default function Map({
   useEffect(() => {
     const addrs = addresses.filter((a) => a.length > 0);
     if (
-      ((locations && Object.keys(locations).length > 0) || addrs.length > 0) &&
+      ((locations && locations.length > 0) || addrs.length > 0) &&
       hasMounted &&
       data
     ) {
-      const allLocations = Object.values(locations)
-        .reduce((acc: any[], val) => acc.concat(val), [])
-        .map((l: any) => l.geometry.location);
+      const allLocations = locations.map((l: Location) => l.geometry.location);
       const coords = addrs.map((a) => ({
         lat: parseFloat(a.split(",")[0]),
         lng: parseFloat(a.split(",")[1]),
@@ -127,8 +125,8 @@ export default function Map({
     },
     station: {
       icon: MdTrain,
-      light: "#000",
-      dark: "#000",
+      light: "#6366f1",
+      dark: "#4338ca",
     },
   };
 
@@ -175,33 +173,29 @@ export default function Map({
               );
             })}
           {locations &&
-            Object.keys(locations).map((type: string, i: number) => {
-              return locations[type].map((l: any, i: number) => {
-                const loc = l.geometry.location;
-                return (
-                  // @ts-ignore
-                  <div key={i} lat={loc.lat} lng={loc.lng}>
-                    <FaMapMarker
-                      className="w-12 h-12 text-tertiary-600 dark:text-tertiary-400"
-                      style={{ transform: "translate(-50%, -100%)" }}
-                    />
-                    <div
-                      className="absolute w-7 h-7 text-tertiary-600 dark:text-tertiary-400"
-                      style={{
-                        transform: "translate(-50%, -320%)",
-                        color:
-                          theme == "dark"
-                            ? map[type as SpotTypes].dark
-                            : map[type as SpotTypes].light,
-                      }}
-                    >
-                      {React.createElement(map[type as SpotTypes].icon, {
-                        className: "w-full h-full",
-                      })}
-                    </div>
+            locations.map((l: Location, i: number) => {
+              const loc = l.geometry.location;
+              return (
+                // @ts-ignore
+                <div key={i} lat={loc.lat} lng={loc.lng}>
+                  <FaMapMarker
+                    className="w-12 h-12 text-tertiary-600 dark:text-tertiary-400"
+                    style={{ transform: "translate(-50%, -100%)" }}
+                  />
+                  <div
+                    className="absolute w-7 h-7 text-tertiary-600 dark:text-tertiary-400"
+                    style={{
+                      transform: "translate(-50%, -320%)",
+                      color:
+                        theme == "dark" ? map[l.type].dark : map[l.type].light,
+                    }}
+                  >
+                    {React.createElement(map[l.type].icon, {
+                      className: "w-full h-full",
+                    })}
                   </div>
-                );
-              });
+                </div>
+              );
             })}
         </GoogleMapReact>
       ) : (
