@@ -23,11 +23,13 @@ export default function Autocomplete({
   setValue,
   placeholder,
   clearLocations,
+  isFull,
 }: {
-  value: string;
-  setValue: (value: string) => void;
+  value: { [key: string]: any };
+  setValue: (label: string, value: string) => void;
   placeholder?: string;
   clearLocations: () => void;
+  isFull?: boolean;
 }) {
   const { theme } = useTheme();
   const hasMounted = useHasMounted();
@@ -37,10 +39,11 @@ export default function Autocomplete({
       {hasMounted && theme && (
         <AsyncSelect
           menuPlacement="auto"
+          value={value}
           styles={{
             container: (provided, state) => ({
               ...provided,
-              width: "100%",
+              width: isFull ? "100%" : "90%",
             }),
             menu: (provided, state) => ({
               ...provided,
@@ -97,7 +100,7 @@ export default function Autocomplete({
           loadOptions={getAutocomplete}
           placeholder={placeholder}
           onChange={(e: any) => {
-            setValue(e.value);
+            setValue(e.label, e.value);
             clearLocations();
           }}
         />

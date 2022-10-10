@@ -15,7 +15,7 @@ import {
 } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
 import { Toaster } from "react-hot-toast";
-import { Location, SpotTypes } from "../../utils/types";
+import { Address, Coord, Location, SpotTypes } from "../../utils/types";
 import React from "react";
 
 // @ts-ignore
@@ -24,9 +24,13 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 export default function Map({
   addresses,
   locations,
+  resultsRef,
+  setClosed,
 }: {
-  addresses: string[];
+  addresses: Address[];
   locations: Location[];
+  resultsRef: React.MutableRefObject<HTMLDivElement | null>;
+  setClosed: (closed: boolean) => void;
 }) {
   const { data, error } = useSWR("/api/mapURL", fetcher);
   const { theme } = useTheme();
@@ -36,7 +40,7 @@ export default function Map({
   useEffect(() => {
     if (
       addresses.length > 0 &&
-      addresses.every((a) => a.length > 0) &&
+      addresses.some((a) => a.coords != undefined) &&
       hasMounted &&
       data
     ) {
@@ -45,17 +49,19 @@ export default function Map({
   }, [addresses, hasMounted, data]);
 
   useEffect(() => {
-    const addrs = addresses.filter((a) => a.length > 0);
+    const addrs = addresses.filter((a) => a.formatted_address.length > 0);
     if (
       ((locations && locations.length > 0) || addrs.length > 0) &&
       hasMounted &&
       data
     ) {
       const allLocations = locations.map((l: Location) => l.geometry.location);
-      const coords = addrs.map((a) => ({
-        lat: parseFloat(a.split(",")[0]),
-        lng: parseFloat(a.split(",")[1]),
-      }));
+      const coords = addrs
+        .filter((a) => a.coords)
+        .map((a) => ({
+          lat: (a.coords as Coord).lat,
+          lng: (a.coords as Coord).lng,
+        }));
       allLocations.push(...coords);
 
       if (allLocations.length == 0) {
@@ -69,12 +75,12 @@ export default function Map({
 
       if (latMin == latMax && lngMin == lngMax && mapRef.current) {
         // @ts-ignore
-        mapRef.current.map_.setCenter({ lat: latMin, lng: lngMin });
+        mapRef.current.map_?.setCenter({ lat: latMin, lng: lngMin });
         // @ts-ignore
-        mapRef.current.map_.setZoom(16);
+        mapRef.current.map_?.setZoom(16);
       } else if (mapRef.current) {
         // @ts-ignore
-        mapRef.current.map_.fitBounds(
+        mapRef.current.map_?.fitBounds(
           {
             north: latMax,
             south: latMin,
@@ -150,16 +156,16 @@ export default function Map({
             clickableIcons: false,
           }}
           defaultCenter={{
-            lat: parseFloat(addresses[0].split(",")[0]),
-            lng: parseFloat(addresses[0].split(",")[1]),
+            lat: addresses[0].coords?.lat || 0,
+            lng: addresses[0].coords?.lng || 0,
           }}
           defaultZoom={15}
         >
           {addresses
-            .filter((a) => a.length > 0)
+            .filter((a) => a.coords)
             .map((a, i) => {
-              const lat = parseFloat(a.split(",")[0]);
-              const lng = parseFloat(a.split(",")[1]);
+              const lat = a.coords?.lat;
+              const lng = a.coords?.lng;
               return (
                 // @ts-ignore
                 <div key={i} lat={lat} lng={lng}>
@@ -176,8 +182,33 @@ export default function Map({
             locations.map((l: Location, i: number) => {
               const loc = l.geometry.location;
               return (
-                // @ts-ignore
-                <div key={i} lat={loc.lat} lng={loc.lng}>
+                <div
+                  key={i}
+                  // @ts-ignore
+                  lat={loc.lat}
+                  lng={loc.lng}
+                  onClick={() => {
+                    if (resultsRef.current) {
+                      const div = resultsRef.current.querySelector(
+                        `div#${l.place_id}`
+                      );
+                      div?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
+                      setClosed(false);
+                      div?.setAttribute(
+                        "style",
+                        `background: ${
+                          theme == "dark" ? "#E09F7D40" : "#DB926B30"
+                        } `
+                      );
+                      setTimeout(() => {
+                        div?.setAttribute("style", "");
+                      }, 2000);
+                    }
+                  }}
+                >
                   <FaMapMarker
                     className="w-12 h-12 text-tertiary-600 dark:text-tertiary-400"
                     style={{ transform: "translate(-50%, -100%)" }}

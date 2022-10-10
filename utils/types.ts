@@ -19,6 +19,12 @@ export type Geometry = {
     location: Coord;
 }
 
+export type Address = {
+    formatted_address: string,
+    coords?: Coord,
+    place_id?: string,
+}
+
 export type Location = {
     place_id: string;
     icon: string;

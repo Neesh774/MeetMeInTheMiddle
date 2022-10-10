@@ -1,22 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Coord, Filters, SpotTypes } from '../../utils/types';
+import { Address, Coord, Filters, SpotTypes } from '../../utils/types';
 import { Location } from '../../utils/types';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { addresses, filters }: { addresses: string[], filters: Filters } = req.body;
+    const { addresses, filters }: { addresses: Address[], filters: Filters } = req.body;
     const url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+
     const key = process.env.GOOGLE_API_KEY;
-    const coords = addresses.map((coord: string) => {
-        return {
-            lat: parseFloat(coord.split(",")[0]),
-            lng: parseFloat(coord.split(",")[1])
-        } as Coord
-    })
+    const coords = addresses.map((addr: Address) => addr.coords as Coord);
     const coordsAverage = coords.reduce((acc: Coord, curr: Coord) => {
         acc.lat += curr.lat;
         acc.lng += curr.lng;
         return acc;
-    }
-        , { lat: 0, lng: 0 });
+    }, { lat: 0, lng: 0 });
     coordsAverage.lat /= coords.length;
     coordsAverage.lng /= coords.length;
 
@@ -25,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const location = `${coordsAverage.lat}%2C${coordsAverage.lng}`
     const radius = (Math.min(...coords.map((coord: Coord) => {
         return Math.sqrt(Math.pow(coord.lat - coordsAverage.lat, 2) + Math.pow(coord.lng - coordsAverage.lng, 2))
-    })) * (filters.radius) * 8000).toFixed(0)
+    })) * (filters.radius) * 12000).toFixed(0)
 
     const results: Location[] = [];
     await Promise.all(spotTypes.map(async (type) => {

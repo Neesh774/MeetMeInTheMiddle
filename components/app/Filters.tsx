@@ -39,12 +39,12 @@ export default function Filters({
       <div className="flex flex-row justify-center gap-2 w-full">
         <Slider
           value={filters.radius}
-          setValue={(value) =>
+          setValue={(value) => {
             setFilters({
               ...filters,
               radius: value,
-            })
-          }
+            });
+          }}
           min={1}
           max={9}
         />
@@ -78,7 +78,7 @@ export default function Filters({
                   : "text-zinc-800 dark:text-zinc-500"
               }`}
             >
-              <Icon width="10">{map[type as SpotTypes]}</Icon>
+              <Icon width="12">{map[type as SpotTypes]}</Icon>
               <span className="text-xs mb-1">{type}</span>
             </div>
           </button>

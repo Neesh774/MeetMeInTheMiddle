@@ -16,6 +16,7 @@ export default function Header() {
         width={296}
         height={45}
         layout="fixed"
+        priority
       />
       {hasMounted && (
         <IconButton
