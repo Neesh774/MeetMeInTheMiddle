@@ -10,24 +10,15 @@ export default function Sidebar({
   addresses,
   setAddresses,
   setLocations,
+  filters,
+  setFilters,
 }: {
   addresses: string[];
   setAddresses: (addresses: string[]) => void;
   setLocations: (locations: Location[]) => void;
+  filters: FiltersType;
+  setFilters: (filters: FiltersType) => void;
 }) {
-  const [filters, setFilters] = useState<FiltersType>({
-    spotTypes: {
-      cafe: true,
-      dining: false,
-      park: false,
-      bar: false,
-      movies: false,
-      landmark: false,
-      bowling: false,
-      station: false,
-    },
-    radius: 5,
-  });
   const [loading, setLoading] = useState(false);
   const { theme } = useTheme();
 
@@ -63,7 +54,7 @@ export default function Sidebar({
     setLoading(false);
   };
   return (
-    <div className="flex flex-col w-1/3 xl:w-1/4 h-full border-r-2 border-gray-200 dark:border-gray-600 px-4 py-6 justify-between z-20 bg-white dark:bg-black">
+    <div className="flex flex-col w-96 xl:w-[32rem] h-full border-r-2 border-gray-200 dark:border-gray-600 px-4 py-6 justify-between z-20 bg-white dark:bg-black">
       <Addresses
         addresses={addresses}
         setAddresses={setAddresses}

@@ -6,39 +6,25 @@ import hexDataURL from "../../utils/rgbDataURL";
 import { toBase64, shimmer } from "../../utils/shimmer";
 import { useTheme } from "next-themes";
 
-export default function ResultCard({
-  location,
-  images,
-  setImages,
-}: {
-  location: Location;
-  images: Images;
-  setImages: (images: Images) => void;
-}) {
+export default function ResultCard({ location }: { location: Location }) {
   const { theme } = useTheme();
   const [image, setImage] = useState<string>(location.icon);
 
   useEffect(() => {
-    if (images.hasOwnProperty(location.place_id)) return;
     if (location.photos && location.photos.length > 0) {
       fetch(
         `/api/photos/${location.photos[0].photo_reference}?maxwidth=${location.photos[0].width}`
       )
         .then((res) => res.json())
         .then((res) => {
-          setImages({ ...images, [location.place_id]: res.image });
           setImage(res.image);
         })
-        .catch((err) => {
-          console.error(err);
-          setImages({ ...images, [location.place_id]: location.icon });
+        .catch(() => {
           setImage(location.icon);
         });
     } else {
-      setImages({ ...images, [location.place_id]: location.icon });
       setImage(location.icon);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (
