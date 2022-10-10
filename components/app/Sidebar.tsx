@@ -5,6 +5,7 @@ import { Address, Filters as FiltersType, Location } from "../../utils/types";
 import Button from "../base/Button";
 import Addresses from "./Addresses";
 import Filters from "./Filters";
+import ShareButton from "./ShareButton";
 
 export default function Sidebar({
   addresses,
@@ -76,7 +77,8 @@ export default function Sidebar({
       />
       <div>
         <Filters filters={filters} setFilters={setFilters} />
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-between mt-4">
+          <ShareButton />
           <Button
             size="md"
             style={canSearch ? "primary" : "disabled"}

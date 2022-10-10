@@ -16,7 +16,7 @@ export default function Button({
   return (
     <button
       onClick={style != "disabled" ? onClick : undefined}
-      className={`rounded-md font-medium transition-all duration-200 ease-in-out ${
+      className={`rounded-md flex flex-row items-center font-medium transition-all duration-200 ease-in-out ${
         style == "secondary"
           ? "bg-secondary-400/40 text-secondary-600 hover:bg-secondary-400/60 dark:bg-secondary-600/50 dark:hover:bg-secondary-600/60"
           : style == "white"
