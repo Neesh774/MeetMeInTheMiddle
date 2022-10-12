@@ -49,7 +49,7 @@ export default function Map({
   }, [addresses, hasMounted, data]);
 
   useEffect(() => {
-    const addrs = addresses.filter((a) => a.formatted_address.length > 0);
+    const addrs = addresses.filter((a) => !!a.coords);
     if (
       ((locations && locations.length > 0) || addrs.length > 0) &&
       hasMounted &&
@@ -73,7 +73,7 @@ export default function Map({
       const lngMin = Math.min(...allLocations.map((l) => l.lng));
       const lngMax = Math.max(...allLocations.map((l) => l.lng));
 
-      if (latMin == latMax && lngMin == lngMax && mapRef.current) {
+      if (addrs.length == 1 && mapRef.current) {
         // @ts-ignore
         mapRef.current.map_?.setCenter({ lat: latMin, lng: lngMin });
         // @ts-ignore
