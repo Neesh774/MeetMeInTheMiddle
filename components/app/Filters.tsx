@@ -52,7 +52,7 @@ export default function Filters({
       <h6 className="uppercase text-zinc-400 dark:text-zinc-600 font-semibold text-sm mt-2">
         Search For
       </h6>
-      <div className="gap-2 w-full grid grid-cols-4">
+      <div className="gap-2 w-full flex flex-row overflow-x-auto pb-4 lg:pb-0 lg:grid lg:grid-cols-4">
         {Object.keys(map).map((type) => (
           <button
             key={type}

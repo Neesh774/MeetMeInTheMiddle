@@ -96,7 +96,7 @@ export default function Map({
   const map = {
     cafe: {
       icon: IoIosCafe,
-      light: "#b45309",
+      light: "#a86634",
       dark: "#92400e",
     },
     dining: {
@@ -137,7 +137,7 @@ export default function Map({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full absolute left-0 right-0 top-0 bottom-0">
       <Toaster />
       {shown ? (
         <GoogleMapReact

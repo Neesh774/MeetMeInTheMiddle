@@ -40,6 +40,7 @@ export default function Autocomplete({
         <AsyncSelect
           menuPlacement="auto"
           value={value}
+          menuPosition="fixed"
           styles={{
             container: (provided, state) => ({
               ...provided,
@@ -48,8 +49,12 @@ export default function Autocomplete({
             menu: (provided, state) => ({
               ...provided,
               backgroundColor: theme == "dark" ? "#2B2B2B" : "#F4F4F4",
-              width: "150%",
               minWidth: "100%",
+              width: "100%",
+              "@media (min-width: 1024px)": {
+                width: "150%",
+              },
+              zIndex: 30,
             }),
             option: (provided, state) => ({
               ...provided,

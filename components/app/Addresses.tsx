@@ -47,7 +47,7 @@ export default function Addresses({
   }, []);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 h-[80%]">
       <div className="flex flex-row justify-between">
         <h1 className="text-2xl font-semibold">Addresses</h1>
         <Button
@@ -68,7 +68,7 @@ export default function Addresses({
           </div>
         </Button>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 overflow-y-auto lg:overflow-y-visible h-[100%]">
         {addresses.map((address, i) => (
           <div key={i} className="flex flex-row justify-between gap-2">
             <Autocomplete

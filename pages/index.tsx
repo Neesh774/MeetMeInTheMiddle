@@ -22,6 +22,7 @@ const Home: NextPage = ({
     radius,
   });
   const [resultsClosed, setResultsClosed] = useState(true);
+  const [detailsClosed, setDetailsClosed] = useState(true);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,13 +66,17 @@ const Home: NextPage = ({
   return (
     <div className="h-full flex flex-col">
       <Header />
-      <div className="flex h-full relative">
+      <div className="flex h-full relative flex-col-reverse lg:flex-row overflow-hidden">
         <Sidebar
           addresses={addresses}
           setAddresses={setAddresses}
           setLocations={setLocations}
           filters={filters}
           setFilters={setFilters}
+          closed={detailsClosed}
+          setClosed={setDetailsClosed}
+          resultsClosed={resultsClosed}
+          setResultsClosed={setResultsClosed}
         />
         <Results
           filters={filters}
@@ -80,6 +85,8 @@ const Home: NextPage = ({
           resultsRef={resultsRef}
           closed={resultsClosed}
           setClosed={setResultsClosed}
+          detailsClosed={detailsClosed}
+          setDetailsClosed={setDetailsClosed}
         />
         <Map
           addresses={addresses}
