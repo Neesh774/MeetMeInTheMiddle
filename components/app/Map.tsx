@@ -17,6 +17,8 @@ import { BiDrink } from "react-icons/bi";
 import { Toaster } from "react-hot-toast";
 import { Address, Coord, Location, SpotTypes } from "../../utils/types";
 import React from "react";
+import Button from "../base/Button";
+import { FiPlus } from "react-icons/fi";
 
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -26,11 +28,13 @@ export default function Map({
   locations,
   resultsRef,
   setClosed,
+  openDetails,
 }: {
   addresses: Address[];
   locations: Location[];
   resultsRef: React.MutableRefObject<HTMLDivElement | null>;
   setClosed: (closed: boolean) => void;
+  openDetails: () => void;
 }) {
   const { data, error } = useSWR("/api/mapURL", fetcher);
   const { theme } = useTheme();
@@ -233,6 +237,14 @@ export default function Map({
         <div className="flex flex-col items-center justify-center w-full h-full bg-gray-100 dark:bg-gray-800 text-gray-400 font-medium gap-2 text-xl">
           <TbMapSearch className="w-16 h-16" />
           <span>Add an address to get started.</span>
+          <Button
+            onClick={openDetails}
+            className="lg:hidden gap-2 mt-2"
+            style="white"
+            size="sm"
+          >
+            View Details
+          </Button>
         </div>
       )}
     </div>

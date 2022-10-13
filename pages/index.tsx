@@ -93,6 +93,7 @@ const Home: NextPage = ({
           locations={locations}
           resultsRef={resultsRef}
           setClosed={setResultsClosed}
+          openDetails={() => setDetailsClosed(false)}
         />
       </div>
     </div>
