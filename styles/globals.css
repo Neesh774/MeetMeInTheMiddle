@@ -18,6 +18,7 @@ html,
 #__next,
 body {
   height: 100%;
+  overflow: hidden;
 }
 
 @tailwind components;

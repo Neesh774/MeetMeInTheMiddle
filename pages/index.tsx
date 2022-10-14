@@ -8,6 +8,7 @@ import Sidebar from "../components/app/Sidebar";
 import { Address, Location } from "../utils/types";
 import { Filters as FiltersType } from "../utils/types";
 import { GetServerSideProps } from "next";
+import Modal from "../components/app/Help";
 
 const Home: NextPage = ({
   addresses: initialAddresses,
@@ -106,6 +107,7 @@ const Home: NextPage = ({
           openDetails={() => setDetailsClosed(false)}
         />
       </div>
+      <Modal />
     </div>
   );
 };

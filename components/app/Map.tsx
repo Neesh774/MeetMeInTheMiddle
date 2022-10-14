@@ -141,7 +141,7 @@ export default function Map({
   };
 
   return (
-    <div className="w-full absolute left-0 right-0 top-0 bottom-0">
+    <div className="absolute left-0 lg:left-96 right-0 top-0 bottom-0">
       <Toaster />
       {shown ? (
         <GoogleMapReact
@@ -158,6 +158,7 @@ export default function Map({
                 : defaultStyles,
             fullscreenControl: false,
             clickableIcons: false,
+            zoomControl: false,
           }}
           defaultCenter={{
             lat: addresses[0].coords?.lat || 0,
