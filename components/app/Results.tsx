@@ -96,7 +96,7 @@ export default function Results({
             .filter((location) => show.includes(location.type))
             .flat()
             .map((location, i) => (
-              <ResultCard location={location} key={i} />
+              <ResultCard location={location} key={i} day={filters.day} />
             ))}
         </div>
       </div>

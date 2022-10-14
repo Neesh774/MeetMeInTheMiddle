@@ -86,7 +86,7 @@ export default function Sidebar({
 
   return (
     <div
-      className={`absolute lg:static flex flex-col left-0 right-0 lg:w-full overflow-y-visible rounded-t-lg lg:rounded-t-none lg:max-w-[24rem] h-[95%] border-t-2 lg:border-t-0 lg:h-full lg:border-r-2 border-gray-200 dark:border-gray-600 px-4 pb-12 lg:pt-6 justify-between z-20 bg-white dark:bg-black transition-all duration-300 ${
+      className={`absolute lg:static flex flex-col left-0 right-0 lg:w-full overflow-y-visible rounded-t-lg lg:rounded-t-none lg:max-w-[24rem] h-[95%] border-t-2 lg:border-t-0 lg:h-full lg:border-r-2 border-gray-200 dark:border-gray-600 px-4 pb-12 lg:pb-6 lg:pt-6 justify-between z-20 bg-white dark:bg-black transition-all duration-300 ${
         closed && resultsClosed
           ? "-bottom-[83%] lg:bottom-0"
           : closed && !resultsClosed
@@ -111,7 +111,7 @@ export default function Sidebar({
           setLocations={setLocations}
         />
       </div>
-      <div className="h-[30%]">
+      <div className="h-[30%] flex flex-col justify-end">
         <Filters filters={filters} setFilters={setFilters} />
         <div className="flex justify-between mt-4">
           <ShareButton />

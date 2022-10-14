@@ -10,40 +10,24 @@ import { BiWorld } from "react-icons/bi";
 import { TbError404 } from "react-icons/tb";
 import Link from "next/link";
 
-export default function ResultCard({ location }: { location: Location }) {
+export default function ResultCard({
+  location,
+  day,
+}: {
+  location: Location;
+  day?: number;
+}) {
   const { theme } = useTheme();
-  const [image, setImage] = useState<string | undefined>();
-  const [url, setUrl] = useState<string>();
-  const [website, setWebsite] = useState<string>();
-
-  useEffect(() => {
-    if (location.photos && location.photos.length > 0) {
-      fetch(
-        `/api/details?ref=${location.photos[0].photo_reference}&maxwidth=${location.photos[0].width}&place_id=${location.place_id}`
-      )
-        .then((res) => res.json())
-        .then((res) => {
-          setImage(res.image);
-          setUrl(res.url);
-          setWebsite(res.website);
-        })
-        .catch(() => {
-          setImage(undefined);
-        });
-    } else {
-      setImage(undefined);
-    }
-  }, [location]);
 
   return (
     <div
       className="flex flex-row max-h-44 lg:max-h-max lg:flex-col min-w-full lg:min-w-fit w-full snap-center gap-2 bg-white dark:bg-zinc-800 rounded-lg p-2 transition-colors duration-300"
       id={location.place_id}
     >
-      <Link href={url || website || "/"} passHref>
-        {image ? (
+      <Link href={location.url || location.website || "/"} passHref>
+        {location.image ? (
           <Image
-            src={image}
+            src={location.image}
             alt={location.name}
             width={location.photos ? location.photos[0].width : "800"}
             height={location.photos ? location.photos[0].height : "400"}
@@ -66,18 +50,23 @@ export default function ResultCard({ location }: { location: Location }) {
       <div className="flex flex-col lg:flex-row justify-between">
         <div className="flex flex-col gap-1">
           <div>
-            {location.opening_hours && (
-              <span
-                className={`font-semibold text-sm ${
-                  location.opening_hours.open_now
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                {location.opening_hours.open_now ? "Open Now" : "Closed"}
-              </span>
-            )}
-            <div className="text-lg font-semibold max-w-[11rem] md:max-w-sm truncate break-all">
+            {location.opening_hours &&
+              (day != undefined && location.opening_hours.weekday_text ? (
+                <span className="font-semibold text-sm text-green-500">
+                  {location.opening_hours.weekday_text[day].split(": ")[1]}
+                </span>
+              ) : (
+                <span
+                  className={`font-semibold text-sm ${
+                    location.opening_hours.open_now
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {location.opening_hours.open_now ? "Open Now" : "Closed"}
+                </span>
+              ))}
+            <div className="text-lg font-semibold max-w-[11rem] truncate break-all">
               {location.name}
             </div>
           </div>
@@ -119,15 +108,15 @@ export default function ResultCard({ location }: { location: Location }) {
           </div>
         </div>
         <div className="lg:flex flex-row lg:flex-col justify-start items-center gap-2 mr-2 my-2 hidden">
-          {website && (
-            <a href={website}>
+          {location.website && (
+            <a href={location.website}>
               <button className="text-gray-600 dark:text-gray-300 transition-colors duration-150 hover:text-secondary-600 hover:dark:text-secondary-400 rounded-md">
                 <BiWorld className="w-6 h-6" />
               </button>
             </a>
           )}
-          {url && (
-            <a href={url}>
+          {location.url && (
+            <a href={location.url}>
               <button className="text-gray-600 dark:text-gray-300 transition-colors duration-150 hover:text-secondary-600 hover:dark:text-secondary-400 rounded-md">
                 <FiLink className="w-6 h-6" />
               </button>

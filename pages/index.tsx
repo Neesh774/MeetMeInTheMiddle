@@ -13,6 +13,8 @@ const Home: NextPage = ({
   addresses: initialAddresses,
   spots,
   radius,
+  day,
+  time,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const [addresses, setAddresses] = useState<Address[]>(initialAddresses);
@@ -20,6 +22,8 @@ const Home: NextPage = ({
   const [filters, setFilters] = useState<FiltersType>({
     spotTypes: spots,
     radius,
+    day,
+    time,
   });
   const [resultsClosed, setResultsClosed] = useState(true);
   const [detailsClosed, setDetailsClosed] = useState(true);
@@ -35,12 +39,16 @@ const Home: NextPage = ({
         )
         .join(","),
       radius: filters.radius.toString(),
+      day: filters.day?.toString() || "",
+      time: filters.time?.toString() || "",
     };
     // check if query objects are same
     if (
       router.query.addresses !== newQuery.addresses ||
       router.query.spots !== newQuery.spots ||
-      (router.query.radius as string) !== newQuery.radius
+      (router.query.radius as string) !== newQuery.radius ||
+      router.query.day != newQuery.day ||
+      router.query.time != newQuery.time
     ) {
       router.push(
         {
@@ -55,6 +63,8 @@ const Home: NextPage = ({
               )
               .join(","),
             radius: filters.radius,
+            day: filters.day,
+            time: filters.time,
           },
         },
         undefined,
@@ -101,7 +111,7 @@ const Home: NextPage = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { addresses, spots, radius } = context.query;
+  const { addresses, spots, radius, day, time } = context.query;
 
   const spotTypes = {
     cafe: false,
@@ -136,6 +146,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           ],
       spots: spotTypes,
       radius: radius ? parseInt(radius as string) : 5,
+      day: day ? (day as string) : null,
+      time: time ? (time as string) : null,
     },
   };
 };

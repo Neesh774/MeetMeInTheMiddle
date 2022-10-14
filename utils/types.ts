@@ -13,6 +13,8 @@ export type Filters = {
         [key in SpotTypes]: boolean
     },
     radius: number,
+    time?: string;
+    day?: number;
 }
 
 export type Geometry = {
@@ -29,6 +31,7 @@ export type Location = {
     place_id: string;
     icon: string;
     photos: Image[];
+    image: string;
     rating: number;
     name: string;
     vicinity: string;
@@ -38,8 +41,21 @@ export type Location = {
     price_level: number;
     opening_hours: {
         open_now: boolean;
+        periods: {
+            close: {
+                day: number;
+                time: string;
+            };
+            open: {
+                day: number;
+                time: string;
+            };
+        }[];
+        weekday_text: string[];
     }
     type: SpotTypes;
+    website?: string;
+    url?: string;
 }
 
 export type Image = {
