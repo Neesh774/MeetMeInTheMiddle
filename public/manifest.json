@@ -47,7 +47,15 @@
       "src": "icons/512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "any",
+      "type": "image/png"
     }
   ],
-  "splash_pages": null
+  "splash_pages": null,
+  "description": "Meet Me In The Middle is a simple app to help you find the best meeting spots between you and your friends.",
+  "dir": "ltr",
+  "lang": "en"
 }
