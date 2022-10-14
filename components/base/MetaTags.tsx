@@ -13,6 +13,7 @@ export default function MetaTags({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="description" content={description} />
       <link rel="icon" href="/favicon.png" />
+      <link rel="manifest" href="/manifest.json" />
       <title>{title}</title>
       <meta property="og:title" content={title} />
       <meta property="og:type" content="website" />
