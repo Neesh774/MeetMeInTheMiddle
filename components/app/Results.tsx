@@ -11,6 +11,8 @@ import ResultCard from "./ResultCard";
 import Chip from "../base/Chip";
 import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
+import { weave } from "../../utils/weave";
+import AdBanner from "../base/AdBanner";
 
 export default function Results({
   locations,
@@ -92,12 +94,19 @@ export default function Results({
           ))}
         </div>
         <div className="flex flex-row lg:flex-col snap-mandatory gap-2 snap-x w-full overflow-x-auto lg:snap-none">
-          {Object.values(locations)
-            .filter((location) => show.includes(location.type))
-            .flat()
-            .map((location, i) => (
-              <ResultCard location={location} key={i} day={filters.day} />
-            ))}
+          {weave(
+            Object.values(locations)
+              .filter((location) => show.includes(location.type))
+              .flat()
+              .map((location, i) => (
+                <ResultCard location={location} key={i} day={filters.day} />
+              )),
+            Array(
+              Object.values(locations).filter((location) =>
+                show.includes(location.type)
+              ).length / 5
+            ).map((_, i) => <AdBanner key={i} />)
+          )}
         </div>
       </div>
       <div className="absolute -bottom-6 w-full flex justify-center lg:w-auto lg:bottom-auto lg:-right-6">

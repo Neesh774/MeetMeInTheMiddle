@@ -3,6 +3,7 @@ import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import MetaTags from "../components/base/MetaTags";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
