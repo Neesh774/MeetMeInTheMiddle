@@ -102,9 +102,11 @@ export default function Results({
                 <ResultCard location={location} key={i} day={filters.day} />
               )),
             Array(
-              Object.values(locations).filter((location) =>
-                show.includes(location.type)
-              ).length / 5
+              Math.floor(
+                Object.values(locations).filter((location) =>
+                  show.includes(location.type)
+                ).length / 5
+              )
             ).map((_, i) => <AdBanner key={i} />)
           )}
         </div>
