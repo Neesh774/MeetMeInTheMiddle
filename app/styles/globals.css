@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@font-face {
+  font-family: "SignPainter";
+  src: url("/SignPainter.ttf");
+}
+
+html,
+#__next,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+@tailwind components;
+@tailwind utilities;
