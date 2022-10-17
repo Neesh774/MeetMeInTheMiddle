@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const results: Location[] = [];
     await Promise.all(spotTypes.map(async (type) => {
-        const query = `${url}?location=${location}&language=${language}&radius=${radius}&key=${key}&type=${typesMap[type]}`
+        const query = `${url}?location=${location}&language=${language}&radius=${radius}&key=${key}&type=${typesMap[type].type}`
         await fetch(query)
             .then((response) => {
                 return response.json()
@@ -43,20 +43,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const maxwidth = loc.photos[0].width;
                 const ref = loc.photos[0].photo_reference;
                 const imagesUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxwidth}&photoreference=${ref}&key=${key}`
-                const image = await fetch(imagesUrl)
-                loc.image = image.url;
+                await fetch(imagesUrl).then((response) => {
+                    loc.image = response.url;
+                }).catch((err) => console.log(err))
             }
             const detailsUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${key}&place_id=${id}&fields=website,url,opening_hours`
             const detailsData = await fetch(detailsUrl)
             const detailsJson = await detailsData.json()
             loc.website = detailsJson.result.website
             loc.url = detailsJson.result.url
-            if (filters.day) {
+            if (filters.day && loc.opening_hours) {
                 loc.opening_hours.periods = detailsJson.result.opening_hours.periods;
                 loc.opening_hours.open_now = detailsJson.result.opening_hours.open_now;
                 loc.opening_hours.weekday_text = loc.opening_hours.weekday_text ? loc.opening_hours.weekday_text[filters.day].split(": ")[1] : loc.opening_hours.open_now ? "Open now" : "Closed";
             }
-            else {
+            else if (loc.opening_hours) {
                 loc.opening_hours.open_now = detailsJson.result.opening_hours.open_now;
             }
             resolve(loc)

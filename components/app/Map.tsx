@@ -183,7 +183,9 @@ export default function Map({
                     style={{ transform: "translate(-50%, -100%)" }}
                   />
                   <div
-                    className="absolute w-7 h-7 text-tertiary-600 dark:text-tertiary-400"
+                    className={`absolute w-7 h-7 text-tertiary-600 dark:text-tertiary-400 ${
+                      typesMap[l.type].icon.name + " " + l.name
+                    }`}
                     style={{
                       transform: "translate(-50%, -320%)",
                       color:

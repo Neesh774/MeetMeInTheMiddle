@@ -30,6 +30,7 @@ export default function Filters({
   filters: FiltersType;
   setFilters: (types: FiltersType) => void;
 }) {
+  const [showTime, setShowTime] = useState(false);
   const days = [
     "Monday",
     "Tuesday",
@@ -48,19 +49,42 @@ export default function Filters({
       <div className="flex flex-row justify-between items-center">
         <h6 className="uppercase flex items-center gap-2 text-zinc-500 dark:text-zinc-600 font-semibold text-sm">
           Day/Time{" "}
+          <input
+            type="checkbox"
+            checked={showTime}
+            onChange={() => {
+              if (showTime) {
+                setFilters({ ...filters, time: undefined, day: undefined });
+              } else {
+                setFilters({
+                  ...filters,
+                  time: `${new Date().getHours().toLocaleString("en-US", {
+                    minimumIntegerDigits: 2,
+                  })}${new Date().getMinutes().toLocaleString("en-US", {
+                    minimumIntegerDigits: 2,
+                  })}`,
+                  day: new Date().getDay(),
+                });
+              }
+              setShowTime(!showTime);
+            }}
+            className="w-4 h-4 accent-primary-400 rounded-lg"
+          />
         </h6>
         <div className="flex flex-row justify-center gap-4 w-full">
-          <TimePicker
-            time={filters.time as string}
-            setTime={(time) => setFilters({ ...filters, time })}
-            days={days}
-            setDay={(day) => {
-              setFilters({
-                ...filters,
-                day: day,
-              });
-            }}
-          />
+          {showTime && (
+            <TimePicker
+              time={filters.time as string}
+              setTime={(time) => setFilters({ ...filters, time })}
+              days={days}
+              setDay={(day) => {
+                setFilters({
+                  ...filters,
+                  day: day,
+                });
+              }}
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-row justify-between items-center">

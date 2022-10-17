@@ -23,8 +23,8 @@ export type Filters = {
         [key in SpotTypes]: boolean
     },
     radius: number,
-    time: string;
-    day: number;
+    time?: string;
+    day?: number;
 }
 
 export type Geometry = {

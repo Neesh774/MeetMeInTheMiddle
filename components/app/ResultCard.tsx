@@ -56,15 +56,17 @@ export default function ResultCard({
                   {location.opening_hours.weekday_text}
                 </span>
               ) : (
-                <span
-                  className={`font-semibold text-sm ${
-                    location.opening_hours.open_now
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
-                >
-                  {location.opening_hours.open_now ? "Open Now" : "Closed"}
-                </span>
+                location.opening_hours && (
+                  <span
+                    className={`font-semibold text-sm ${
+                      location.opening_hours.open_now
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {location.opening_hours.open_now ? "Open Now" : "Closed"}
+                  </span>
+                )
               ))}
             <div className="text-lg font-semibold max-w-[11rem] truncate break-all">
               {location.name}
@@ -98,13 +100,19 @@ export default function ResultCard({
                 •
               </>
             )}
-            <span className="flex flex-row gap-1 items-center">
-              {location.rating} <BsFillStarFill className="text-amber-500" />
-            </span>
-            <span className="hidden lg:block">•</span>
-            <span className="text-gray-500 dark:text-gray-400 hidden lg:block">
-              {location.user_ratings_total} reviews
-            </span>
+            {location.rating && (
+              <span className="flex flex-row gap-1 items-center">
+                {location.rating} <BsFillStarFill className="text-amber-500" />
+              </span>
+            )}
+            {location.rating && location.user_ratings_total && (
+              <span className="hidden lg:block">•</span>
+            )}
+            {location.user_ratings_total && (
+              <span className="text-gray-500 dark:text-gray-400 hidden lg:block">
+                {location.user_ratings_total} reviews
+              </span>
+            )}
           </div>
         </div>
         <div className="lg:flex flex-row lg:flex-col justify-start items-center gap-2 mr-2 my-2 hidden">

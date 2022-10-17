@@ -157,10 +157,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           ],
       spots: spotTypes,
       radius: radius ? parseInt(radius as string) : 5,
-      day: day ? (day as string) : new Date().getDay(),
-      time: time
-        ? (time as string)
-        : `${new Date().getHours()}${new Date().getMinutes()}`,
+      day: day ? (day as string) : null,
+      time: time ? (time as string) : null,
     },
   };
 };
