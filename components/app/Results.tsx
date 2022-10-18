@@ -59,7 +59,7 @@ export default function Results({
 
   return (
     <div
-      className={`absolute w-full lg:max-w-[24rem] flex items-center top-0 lg:left-0 z-10 pt-2 lg:pt-0 lg:h-full bg-white dark:bg-black lg:bg-gray-200 lg:dark:bg-zinc-900 transition-all duration-300 border-b-2 lg:border-b-0 border-gray-200 dark:border-gray-600 rounded-b-lg lg:rounded-b-none ${
+      className={`absolute w-full lg:max-w-[24rem] flex items-center top-0 lg:left-0 z-10 pt-2 lg:pt-0 lg:h-full bg-white dark:bg-black lg:bg-gray-200 lg:dark:bg-zinc-900 transition-all duration-300 border-b-2 lg:border-b-0 border-gray-200 dark:border-gray-600 ${
         closed && detailsClosed
           ? "top-12 lg:top-0 lg:left-0 -translate-y-full lg:translate-y-0"
           : !closed && detailsClosed
@@ -113,7 +113,7 @@ export default function Results({
       </div>
       <div className="absolute -bottom-6 w-full flex justify-center lg:w-auto lg:bottom-auto lg:-right-6">
         <button
-          className="w-full pb-6 lg:pb-0 h-6 lg:h-20 lg:w-6 bg-white dark:bg-black lg:bg-gray-200 lg:dark:bg-zinc-900 flex justify-center items-center rounded-b-lg lg:rounded-b-none lg:rounded-r-lg border-2 border-t-0 lg:border-0 border-gray-200 dark:border-gray-600"
+          className="w-full pb-6 lg:pb-0 h-6 lg:h-20 lg:w-6 bg-white dark:bg-black lg:bg-gray-200 lg:dark:bg-zinc-900 flex justify-center items-center rounded-b-lg lg:rounded-b-none lg:rounded-r-lg border-b-2 lg:border-0 border-gray-200 dark:border-gray-600"
           onClick={() => setClosed(!closed)}
         >
           {closed ? (

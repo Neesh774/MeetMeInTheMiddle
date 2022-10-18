@@ -41,7 +41,7 @@ export default forwardRef(function Button(
     >
       {loading ? (
         <Loader
-          className={`${
+          className={`w-8 ${
             style == "secondary"
               ? "text-secondary-600 dark:text-secondary-400"
               : style == "white"
