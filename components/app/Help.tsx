@@ -132,21 +132,29 @@ export default function Modal() {
                 this website up, you can
               </p>
             </div>
-            <a
-              href="https://www.buymeacoffee.com/ilioslabs"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <img
-                src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png"
-                alt="Buy Me A Coffee"
-                style={{
-                  height: "42px",
-                  width: "148px",
-                  margin: "auto",
-                }}
-              />
-            </a>
+            <div className="flex flex-row items-center justify-around">
+              <a
+                href="https://www.buymeacoffee.com/ilioslabs"
+                rel="noreferrer"
+                target="_blank"
+              >
+                <img
+                  src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png"
+                  alt="Buy Me A Coffee"
+                  style={{
+                    height: "42px",
+                    width: "160px",
+                  }}
+                />
+              </a>
+              <iframe
+                src="https://github.com/sponsors/Neesh774/button"
+                title="Sponsor Neesh774"
+                height="35"
+                width="116"
+                style={{ border: "0" }}
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>
