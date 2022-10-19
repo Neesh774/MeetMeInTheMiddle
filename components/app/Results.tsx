@@ -9,7 +9,11 @@ import {
 import Image from "next/image";
 import ResultCard from "./ResultCard";
 import Chip from "../base/Chip";
-import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
+import {
+  BsChevronCompactDown,
+  BsChevronCompactUp,
+  BsSignpostSplit,
+} from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { weave } from "../../utils/weave";
 import AdBanner from "../base/AdBanner";
@@ -75,41 +79,50 @@ export default function Results({
         <div className="text-2xl font-bold text-zinc-900 dark:text-zinc-200 mb-3 lg:mb-0">
           Results
         </div>
-        <div className="flex flex-row gap-2 lg:flex-wrap max-w-full overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0">
-          {types.length > 1 &&
-            types.map((key, i) => (
-              <Chip
-                key={i}
-                checked={show.includes(key)}
-                toggle={() => {
-                  if (show.includes(key)) {
-                    setShow(show.filter((item) => item !== key));
-                  } else {
-                    setShow([...show, key]);
-                  }
-                }}
-              >
-                {key}
-              </Chip>
-            ))}
-        </div>
-        <div className="flex flex-row lg:flex-col snap-mandatory gap-2 snap-x w-full overflow-x-auto lg:snap-none">
-          {weave(
-            Object.values(locations)
-              .filter((location) => show.includes(location.type))
-              .flat()
-              .map((location, i) => (
-                <ResultCard location={location} key={i} day={filters.day} />
-              )),
-            Array(
-              Math.floor(
-                Object.values(locations).filter((location) =>
-                  show.includes(location.type)
-                ).length / 5
-              )
-            ).map((_, i) => <AdBanner key={i} />)
-          )}
-        </div>
+        {locations.length > 0 ? (
+          <>
+            <div className="flex flex-row gap-2 lg:flex-wrap max-w-full overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0">
+              {types.length > 1 &&
+                types.map((key, i) => (
+                  <Chip
+                    key={i}
+                    checked={show.includes(key)}
+                    toggle={() => {
+                      if (show.includes(key)) {
+                        setShow(show.filter((item) => item !== key));
+                      } else {
+                        setShow([...show, key]);
+                      }
+                    }}
+                  >
+                    {key}
+                  </Chip>
+                ))}
+            </div>
+            <div className="flex flex-row lg:flex-col snap-mandatory gap-2 snap-x w-full overflow-x-auto lg:snap-none">
+              {weave(
+                Object.values(locations)
+                  .filter((location) => show.includes(location.type))
+                  .flat()
+                  .map((location, i) => (
+                    <ResultCard location={location} key={i} day={filters.day} />
+                  )),
+                Array(
+                  Math.floor(
+                    Object.values(locations).filter((location) =>
+                      show.includes(location.type)
+                    ).length / 5
+                  )
+                ).map((_, i) => <AdBanner key={i} />)
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-row lg:flex-col items-center justify-center w-full h-full text-gray-400 font-medium gap-2 text-base lg:text-xl">
+            <BsSignpostSplit className="w-8 h-8 lg:w-12 lg:h-12" />
+            <span>Add an address to get started.</span>
+          </div>
+        )}
       </div>
       <div className="absolute -bottom-6 w-full flex justify-center lg:w-auto lg:bottom-auto lg:-right-6">
         <button

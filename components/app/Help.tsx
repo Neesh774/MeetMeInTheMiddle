@@ -128,8 +128,8 @@ export default function Modal() {
               </h1>
               <p className="text-gray-800 dark:text-zinc-400">
                 Since I&apos;m still a student, I won&apos;t be able to keep
-                this website running forever. If you want to support me and keep
-                this website up, you can
+                this website running forever. If you want to support me and help
+                keep this website up, you can
               </p>
             </div>
             <div className="flex flex-row items-center justify-around">
