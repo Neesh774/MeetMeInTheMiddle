@@ -5,7 +5,11 @@ import useHasMounted from "../../utils/useHasMounted";
 import IconButton from "../base/IconButton";
 import Image from "next/image";
 
-export default function Header() {
+export default function Header({
+  showModeToggle = true,
+}: {
+  showModeToggle?: boolean;
+}) {
   const { theme, setTheme } = useTheme();
   const hasMounted = useHasMounted();
   return (
@@ -30,7 +34,7 @@ export default function Header() {
           priority
         />
       </div>
-      {hasMounted && (
+      {hasMounted && showModeToggle && (
         <IconButton
           onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
           width="6"
