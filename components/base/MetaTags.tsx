@@ -23,11 +23,6 @@ export default function MetaTags({
       <meta property="twitter:image" content="/meetmeinthemiddlebanner.png" />
       <meta name="theme-color" content="#EF5D60" />
       <meta name="twitter:card" content="summary_large_image" />
-      <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1978358606488844"
-        crossOrigin="anonymous"
-      ></script>
     </Head>
   );
 }
