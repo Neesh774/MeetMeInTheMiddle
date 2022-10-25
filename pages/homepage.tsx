@@ -1,10 +1,13 @@
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Header from "../components/app/Header";
+import Button from "../components/base/Button";
 
 export default function Homepage() {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
+  const router = useRouter();
 
   useEffect(() => {
     setTheme("dark");
@@ -25,6 +28,11 @@ export default function Homepage() {
               Find the best meeting spots right in the middle of you and all
               your friends.
             </p>
+            <div className="flex justify-start p-2">
+              <Button size="md" onClick={() => router.push("/")}>
+                Check It Out
+              </Button>
+            </div>
           </div>
           <div className="flex flex-col p-2 ml-2 rounded-md h-24">
             <h2 className="font-semibold text-blue-500 dark:text-blue-400 text-base md:text-lg">
