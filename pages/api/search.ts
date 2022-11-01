@@ -52,10 +52,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const detailsJson = await detailsData.json()
             loc.website = detailsJson.result.website
             loc.url = detailsJson.result.url
-            if (filters.day && loc.opening_hours) {
+            console.log(filters, detailsJson.result.opening_hours)
+            if (filters.day != undefined && detailsJson.result.opening_hours) {
                 loc.opening_hours.periods = detailsJson.result.opening_hours.periods;
                 loc.opening_hours.open_now = detailsJson.result.opening_hours.open_now;
-                loc.opening_hours.weekday_text = loc.opening_hours.weekday_text ? loc.opening_hours.weekday_text[filters.day].split(": ")[1] : loc.opening_hours.open_now ? "Open now" : "Closed";
+                loc.opening_hours.weekday_text = detailsJson.result.opening_hours.weekday_text ? detailsJson.result.opening_hours.weekday_text[filters.day].split(": ")[1] : detailsJson.result.opening_hours.weekday_text ? "Open now" : "Closed";
+                console.log(loc.opening_hours.weekday_text)
             }
             else if (loc.opening_hours) {
                 loc.opening_hours.open_now = detailsJson.result.opening_hours.open_now;
