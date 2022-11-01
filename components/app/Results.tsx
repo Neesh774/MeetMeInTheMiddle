@@ -27,6 +27,8 @@ export default function Results({
   setClosed,
   detailsClosed,
   setDetailsClosed,
+  selectedResult,
+  setSelectedResult,
 }: {
   locations: Location[];
   setLocations: (locations: Location[]) => void;
@@ -36,6 +38,8 @@ export default function Results({
   setClosed: (closed: boolean) => void;
   detailsClosed: boolean;
   setDetailsClosed: (closed: boolean) => void;
+  selectedResult: Location | null;
+  setSelectedResult: (selectedResult: Location | null) => void;
 }) {
   const types = [...new Set(locations.map((location) => location.type))];
   const [show, setShow] = useState<SpotTypes[]>(types);
@@ -100,21 +104,17 @@ export default function Results({
                 ))}
             </div>
             <div className="flex flex-row lg:flex-col snap-mandatory gap-2 snap-x w-full overflow-x-auto lg:snap-none">
-              {weave(
-                Object.values(locations)
-                  .filter((location) => show.includes(location.type))
-                  .flat()
-                  .map((location, i) => (
-                    <ResultCard location={location} key={i} day={filters.day} />
-                  )),
-                Array(
-                  Math.floor(
-                    Object.values(locations).filter((location) =>
-                      show.includes(location.type)
-                    ).length / 5
-                  )
-                ).map((_, i) => <AdBanner key={i} />)
-              )}
+              {Object.values(locations)
+                .filter((location) => show.includes(location.type))
+                .flat()
+                .map((location, i) => (
+                  <ResultCard
+                    location={location}
+                    key={i}
+                    day={filters.day}
+                    setSelectedResult={setSelectedResult}
+                  />
+                ))}
             </div>
           </>
         ) : (

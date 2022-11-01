@@ -28,6 +28,7 @@ const Home: NextPage = ({
   });
   const [resultsClosed, setResultsClosed] = useState(true);
   const [detailsClosed, setDetailsClosed] = useState(true);
+  const [selectedResult, setSelectedResult] = useState<Location | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -107,6 +108,8 @@ const Home: NextPage = ({
           setClosed={setResultsClosed}
           detailsClosed={detailsClosed}
           setDetailsClosed={setDetailsClosed}
+          selectedResult={selectedResult}
+          setSelectedResult={setSelectedResult}
         />
         <Map
           addresses={addresses}
@@ -114,6 +117,7 @@ const Home: NextPage = ({
           resultsRef={resultsRef}
           setClosed={setResultsClosed}
           openDetails={() => setDetailsClosed(false)}
+          selectedResult={selectedResult}
         />
       </div>
       <Modal />

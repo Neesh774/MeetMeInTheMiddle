@@ -13,9 +13,11 @@ import Link from "next/link";
 export default function ResultCard({
   location,
   day,
+  setSelectedResult,
 }: {
   location: Location;
   day?: number;
+  setSelectedResult: (selectedResult: Location | null) => void;
 }) {
   const { theme } = useTheme();
 
@@ -23,6 +25,7 @@ export default function ResultCard({
     <div
       className="flex flex-row max-h-44 lg:max-h-max lg:flex-col min-w-full lg:min-w-fit w-full snap-center gap-2 bg-white dark:bg-zinc-800 rounded-lg p-2 transition-colors duration-300"
       id={location.place_id}
+      onClick={() => setSelectedResult(location)}
     >
       <Link href={location.url || location.website || "/"} passHref>
         {location.image ? (

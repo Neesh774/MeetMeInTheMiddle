@@ -35,12 +35,14 @@ export default function Map({
   resultsRef,
   setClosed,
   openDetails,
+  selectedResult,
 }: {
   addresses: Address[];
   locations: Location[];
   resultsRef: React.MutableRefObject<HTMLDivElement | null>;
   setClosed: (closed: boolean) => void;
   openDetails: () => void;
+  selectedResult: Location | null;
 }) {
   const { data, error } = useSWR("/api/mapURL", fetcher);
   const { theme } = useTheme();
@@ -103,6 +105,15 @@ export default function Map({
       }
     }
   }, [locations, addresses, data, hasMounted]);
+
+  useEffect(() => {
+    if (selectedResult && mapRef.current) {
+      // @ts-ignore
+      mapRef.current.map_?.setZoom(16);
+      // @ts-ignore
+      mapRef.current.map_?.panTo(selectedResult.geometry.location);
+    }
+  }, [selectedResult]);
 
   return (
     <div className="absolute left-0 lg:left-96 right-0 top-0 bottom-0">
