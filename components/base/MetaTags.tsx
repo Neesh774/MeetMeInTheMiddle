@@ -23,6 +23,11 @@ export default function MetaTags({
       <meta property="twitter:image" content="/meetmeinthemiddlebanner.png" />
       <meta name="theme-color" content="#EF5D60" />
       <meta name="twitter:card" content="summary_large_image" />
+
+      <meta
+        name="google-site-verification"
+        content="nr7ZnuU4iupK8E4luXEplMZTIvPnEHVqEva1MVRVa8k"
+      />
     </Head>
   );
 }
