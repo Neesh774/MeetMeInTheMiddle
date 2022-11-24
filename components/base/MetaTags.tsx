@@ -28,6 +28,11 @@ export default function MetaTags({
         name="google-site-verification"
         content="nr7ZnuU4iupK8E4luXEplMZTIvPnEHVqEva1MVRVa8k"
       />
+      <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1978358606488844"
+        crossOrigin="anonymous"
+      ></script>
     </Head>
   );
 }
