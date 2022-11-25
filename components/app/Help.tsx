@@ -17,7 +17,7 @@ export default function Modal() {
 
   return (
     <>
-      <div className="absolute right-2 bottom-28 lg:bottom-6">
+      <div className="absolute right-2 bottom-24 lg:bottom-6">
         <button
           className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-50 dark:bg-zinc-600"
           onClick={() => setClosed(!closed)}
@@ -28,7 +28,7 @@ export default function Modal() {
       <div
         className={`absolute left-0 right-0 flex justify-center lg:pt-32 top-0 bottom-0 transition-all duration-300 ${
           closed
-            ? "opacity-0 pointer-events-none bg-black/0"
+            ? "opacity-0 pointer-events-none bg-black/0 overflow-hidden"
             : "z-50 opacity-100 bg-black/40"
         } ${bgDelay && "delay-100"}`}
         onClick={() => setClosed(true)}
@@ -37,7 +37,7 @@ export default function Modal() {
           className={`xl:w-1/3 lg:w-1/2 w-full h-full lg:h-fit rounded-lg bg-gray-100 dark:bg-zinc-800 z-50 flex flex-col px-2 pb-8 pt-2 transition-all duration-300 ease-out ${
             closed
               ? "opacity-50 lg:opacity-0 pointer-events-none translate-y-48 lg:translate-y-20"
-              : "opacity-100 translate-y-0"
+              : "opacity-100 translate-y-0 h-fit"
           } ${!bgDelay && "delay-100"}`}
           onClick={(e) => e.stopPropagation()}
         >
