@@ -16,7 +16,6 @@ import {
 } from "react-icons/bs";
 import { useSwipeable } from "react-swipeable";
 import { weave } from "../../utils/weave";
-import AdBanner from "../base/AdBanner";
 
 export default function Results({
   locations,
