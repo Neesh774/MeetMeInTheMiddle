@@ -16,11 +16,16 @@ export default function MetaTags({
       <link rel="manifest" href="/manifest.json" />
       <title>{title}</title>
       <meta property="og:title" content={title} />
+      <meta property="twitter:title" content={title} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://meetmeinthemiddle.vercel.app/" />
       <meta property="og:description" content={description} />
+      <meta property="twitter:description" content={description} />
       <meta property="og:image" content="/meetmeinthemiddlebanner.png" />
-      <meta property="twitter:image" content="/meetmeinthemiddlebanner.png" />
+      <meta
+        property="twitter:image"
+        content="https://meetmeinthemiddle.ilioslabs.dev/meetmeinthemiddlebanner.png"
+      />
       <meta name="theme-color" content="#EF5D60" />
       <meta name="twitter:card" content="summary_large_image" />
 
