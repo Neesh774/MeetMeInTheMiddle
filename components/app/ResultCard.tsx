@@ -36,6 +36,8 @@ export default function ResultCard({
             height={location.photos ? location.photos[0].height : "400"}
             className="object-cover lg:max-h-48 max-w-[50%] lg:max-w-full rounded-md"
             placeholder="blur"
+            unoptimized
+            quality={50}
             blurDataURL={`data:image/svg+xml;base64,${toBase64(
               shimmer(
                 location.photos ? location.photos[0].width : "800",
